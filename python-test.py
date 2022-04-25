@@ -12,7 +12,7 @@ def folderSearcher():
         for root, dirs, files in os.walk(currDir):
             for file in files: 
                 if file.endswith(typeCheck):
-                    print(root)
+                    print(file)
     else:
         folderInput = input('which folder do you want to check: ')
         #dirPath = os.path.dirname(currDir)
