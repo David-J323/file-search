@@ -3,23 +3,30 @@ import os
 
 
 
-def fileSearcher():
+def folderSearcher():
     print(os.listdir())
     currDir = os.getcwd()
-    #userInput = input('which folder do you want to check: ')
-
-    #currDir = os.getcwd()
-    #print(currDir)
-    #userFind = input('What file are you looking for: ') 
-    dirPath = os.path.dirname(os.path.realpath(currDir))
-    print(dirPath)
-    #os.chdir(dirPath)
-    #print(os.listdir)
-    #for root, dirs, files in os.walk(currDir):
+    userInput = input('do you want to check files or folders: ')
+    if(userInput == 'files'):
+        typeCheck = input('which type of file do you want: ')
+        for root, dirs, files in os.walk(currDir):
+            for file in files: 
+                if file.endswith(typeCheck):
+                    print(root)
+    else:
+        folderInput = input('which folder do you want to check: ')
+        #dirPath = os.path.dirname(currDir)
+        print(currDir + '/' + folderInput)
+        #print(currDir)
+        os.chdir(currDir + '/' + folderInput)
+        #print(os.listdir())
+        return folderSearcher()
+    
+    
     
     
 
 
-fileSearcher()
+folderSearcher()
 
 
