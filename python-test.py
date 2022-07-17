@@ -66,12 +66,18 @@ class fileSearcher:
         self.folder = 'folder'
         self.file = 'file'
         self.previousFolder = 'go back'
+        self.cmdTable = ['file', 'go back', 'folder']
 
-    def generateCondition(self, conditionArg, conditionVal, trigger):
-        if(conditionArg == conditionVal):
-            trigger()
+    def generateCondition(self, conditionArg, trigger, a, handleError):
+        a = a + 1
+        if(conditionArg != self.cmdTable[a - 1] and a < len(self.cmdTable)):
+            print('sorry try again')
+            self.generateCondition(conditionArg, trigger, a, handleError)
+        elif(conditionArg != self.cmdTable[a - 1] and a >= len(self.cmdTable)):
+            handleError()
         else: 
-            return
+            trigger()
+            
 
     def openFileCondition(self, openArg, chosenFile, filePermission):
         if(openArg == os.path.split(chosenFile)[-1]):
@@ -85,9 +91,10 @@ class fileSearcher:
     def search(self):
         print(os.listdir())
         userInput = input('Pick One of the Options to Continue - File, Folder, Go Back: ')
-        self.generateCondition(userInput, self.folder, self.folderSearch)
-        self.generateCondition(userInput, self.file, self.fileSearch)
-        self.generateCondition(userInput, self.previousFolder, self.goBack)
+        self.generateCondition(userInput, self.folderSearch, -1, self.errorCatching)
+        #self.generateCondition(userInput, self.folder, self.folderSearch, 0)
+        #self.generateCondition(userInput, self.file, self.fileSearch, 0)
+        #self.generateCondition(userInput, self.previousFolder, self.goBack, 0)
 
         #if(userInput == 'folder'):
          #   self.folderSearch()
@@ -140,6 +147,11 @@ class fileSearcher:
         self.currFolder = prev
         os.chdir(self.currFolder)
         print('Went back to ----- ' + self.currFolder)
+        self.search()
+
+    
+    def errorCatching(self):
+        print("Command Not Recongized Please Try Again")
         self.search()
 
 
